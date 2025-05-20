@@ -4,6 +4,8 @@
 #![no_std]  // Disable the standard library
 #![no_main] // Disable standard Rust entry point
 
+mod vgabfr;
+
 use core::panic::PanicInfo;
 
 // Define the panic handler
@@ -15,16 +17,11 @@ fn panic(_info: &PanicInfo) -> ! {
 // Entry point for the kernel
 #[unsafe(no_mangle)]
 pub extern "C" fn _start() -> ! {
-    let vga_buffer = 0xb8000 as *mut u8;
+    use core::fmt::Write;
+    vgabfr::WRITER.lock().write_str("Hello again").unwrap();
+    write!(vgabfr::WRITER.lock(), ", some numbers: {} {}\n", 42, 1.337).unwrap();
 
-    "Hello World!"
-        .as_bytes()
-        .iter()
-        .flat_map(|bt| [*bt, 0xf as u8])
-        .enumerate()
-        .for_each(|(i, byte)| unsafe {
-            *vga_buffer.offset(i as isize) = byte;    
-        });
+    println!("And... Hello World{}", "!");
 
     loop {}
 }

@@ -5,7 +5,7 @@ minimal, functional OS capable of running basic operations. with the current
 milestone of successfully outputting "Hello World!" to the console.
 
 # Current features
-- Outputs "Hello World!" to the console.
+- Simple tty driver for printing to the screen
 - Basic bootloader setp for bare-metal execution.
 - Minimal Rust-based kernel foundation.
 
